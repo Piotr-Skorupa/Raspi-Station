@@ -1,7 +1,9 @@
 #include <iostream>
+#include "Logger.hpp"
 
 int main()
 {
-    std::cout << "Raspi Station" << std::endl;
+    Logger logger("MainComponent");
+    logger << INFO << "Raspi Weather Station !" << std::endl;
     return 0;
 }
