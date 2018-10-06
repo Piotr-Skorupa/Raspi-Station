@@ -1,4 +1,6 @@
 #include "Logger.hpp"
+#include <chrono>
+#include <iomanip>
 
 Logger::Logger(std::string componentName)
     :componentName_("[" + componentName + "]")
@@ -7,20 +9,55 @@ Logger::Logger(std::string componentName)
 Logger::~Logger()
     {}
 
-std::ostream& Logger::operator<<(const char* text)
+Logger& Logger::operator<<(const char* text)
 {
-    return std::cout << text;
+    file_.open("syslog.log", std::fstream::in | std::fstream::out | std::fstream::app);
+    if (file_.good())
+    {
+        file_ << text;
+        file_.close();
+    }else
+    {
+        std::cerr << "[SYSTEM]: Can't write to syslog" << std::endl;
+    }
+    
+    return *this;
 }
 
-std::ostream& Logger::operator<<(LogType type)
+Logger& Logger::operator<<(LogType type)
 {
-    switch (type)
+    auto now = std::chrono::system_clock::now();
+    auto now_c = std::chrono::system_clock::to_time_t(now);
+    
+    file_.open("syslog.log", std::fstream::in | std::fstream::out | std::fstream::app);
+    if (file_.good())
     {
-    case INFO:
-        return std::cout << " < INFO > " << componentName_ << ": ";
-    case DEBUG:
-        return std::cout << " < DEBUG > " << componentName_ << ": ";
-    case ERROR:
-        return std::cout << " < ERROR > " << componentName_ << ": ";
+        switch (type)
+        {
+        case INFO:
+            file_ << std::put_time(std::localtime(&now_c), "%c")
+                << " < INFO > " << componentName_ << ": ";
+            file_.close();
+            return *this;
+            // return std::cout << std::put_time(std::localtime(&now_c), "%c")
+            //     << " < INFO > " << componentName_ << ": ";
+        case DEBUG:
+            file_ << std::put_time(std::localtime(&now_c), "%c")
+                << " < DEBUG > " << componentName_ << ": ";
+            file_.close();
+            return *this;
+            // return std::cout << std::put_time(std::localtime(&now_c), "%c")
+            //     << " < DEBUG > " << componentName_ << ": ";
+        case ERROR:
+            file_ << std::put_time(std::localtime(&now_c), "%c")
+                << " < ERROR > " << componentName_ << ": ";
+            file_.close();
+            return *this;   
+            // return std::cout << std::put_time(std::localtime(&now_c), "%c")
+            //     << " < ERROR > " << componentName_ << ": ";
+        }
     }
+    else
+        std::cerr << "[SYSTEM]: Can't create log file" << std::endl;
+        return *this;
 }

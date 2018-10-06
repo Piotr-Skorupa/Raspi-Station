@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <chrono>
+
 
 enum class LogType
 {
@@ -26,9 +26,10 @@ public:
     Logger(const Logger&& other) = delete;
     ~Logger();
 
-    std::ostream& operator<<(const char* text);
-    std::ostream& operator<<(LogType text);
+    Logger& operator<<(const char* text);
+    Logger& operator<<(LogType text);
 
 private:
     std::string componentName_;
+    std::fstream file_;
 };
