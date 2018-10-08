@@ -13,9 +13,12 @@ enum class LogType
     Error
 };
 
-#define INFO LogType::Info
-#define DEBUG LogType::Debug
+#define INFO LogType::Info           //use the type, if you want to add date and time to your log
+#define DEBUG LogType::Debug          
 #define ERROR LogType::Error
+#define ENDL "\n"                    //use it instead of "std::endl"
+
+// example usage : logger << INFO << "Some text" << ENDL;
 
 class Logger
 {
@@ -27,7 +30,12 @@ public:
     ~Logger();
 
     Logger& operator<<(const char* text);
+    Logger& operator<<(int text);
+    Logger& operator<<(double text);
+    Logger& operator<<(float text);
     Logger& operator<<(LogType text);
+
+    static void clearLogFile();
 
 private:
     std::string componentName_;
