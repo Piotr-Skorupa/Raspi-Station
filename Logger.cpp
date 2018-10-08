@@ -99,7 +99,7 @@ Logger& Logger::operator<<(LogType type)
     }
     else
     {
-        std::cerr << "[SYSTEM]: Can't create log file" << std::endl;
+        std::cerr << "[SYSTEM]: Can't write to syslog" << std::endl;
     }
         
     return *this;
@@ -115,6 +115,6 @@ void Logger::clearLogFile()
     }
     else
     {
-        std::cerr << "[SYSTEM]: Can't create log file" << std::endl;
+        std::cerr << "[SYSTEM]: Can't write to syslog" << std::endl;
     }
 }
