@@ -10,7 +10,7 @@ int main()
     Logger logger("MainComponent");
     logger << INFO << "Raspi Weather Station !" << ENDL;
     logger << DEBUG << "Tu Piotrek" << ENDL;
-    logger << ERROR << "Ja nie rozumiem czemu to nie dziala xd" << ENDL;
+    logger << ERROR << "test error" << ENDL;
     logger << INFO << "Siema " << 5 << ", " << 5.14 << ", " << 6.3f << ENDL;
 
     std::cout << "waiting..." << std::endl;
