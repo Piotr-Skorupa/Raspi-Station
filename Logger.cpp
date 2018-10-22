@@ -9,6 +9,21 @@ Logger::Logger(std::string componentName)
 Logger::~Logger()
     {}
 
+Logger& Logger::operator<<(std::string text)
+{
+    file_.open("syslog.log", std::fstream::in | std::fstream::out | std::fstream::app);
+    if (file_.good())
+    {
+        file_ << text;
+        file_.close();
+    }else
+    {
+        std::cerr << "[SYSTEM]: Can't write to syslog" << std::endl;
+    }
+    
+    return *this;
+}
+
 Logger& Logger::operator<<(const char* text)
 {
     file_.open("syslog.log", std::fstream::in | std::fstream::out | std::fstream::app);

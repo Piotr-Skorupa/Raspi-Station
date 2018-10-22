@@ -29,6 +29,7 @@ public:
     Logger(const Logger&& other) = delete;
     ~Logger();
 
+    Logger& operator<<(std::string text);
     Logger& operator<<(const char* text);
     Logger& operator<<(int text);
     Logger& operator<<(double text);
