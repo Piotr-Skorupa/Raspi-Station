@@ -1,6 +1,7 @@
 #include "Logger.hpp"
 #include <chrono>
 #include <iomanip>
+#include <ctime>
 
 Logger::Logger(std::string componentName)
     :componentName_("[" + componentName + "]")
