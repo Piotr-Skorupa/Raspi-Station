@@ -17,9 +17,9 @@ int main(int argc, char* argv[])
     logger << DEBUG << "Tu Piotrek" << ENDL;
     logger << ERROR << "test error" << ENDL;
     logger << INFO << "Siema " << 5 << ", " << 5.14 << ", " << 6.3f << ENDL;
-	std::cout << "MQTT test ... to exit CTRL+C" << std::endl;
-	MqttConnector server;
-	server.publish("DEVICES", "czy te urzadzenia dzialaja ?");
+    std::cout << "MQTT test ... to exit CTRL+C" << std::endl;
+    MqttConnector server;
+    server.publish("DEVICES", "czy te urzadzenia dzialaja ?");
 
     return 0;
 }
