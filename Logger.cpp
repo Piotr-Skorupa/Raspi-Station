@@ -97,17 +97,17 @@ Logger& Logger::operator<<(LogType type)
         switch (type)
         {
         case INFO:
-            file_ << std::put_time(std::localtime(&now_c), "%c")
+            file_ << "elo" << //std::put_time(std::localtime(&now_c), "%c")
                 << " < INFO > " << componentName_ << ": ";
             file_.close();
             return *this;
         case DEBUG:
-            file_ << std::put_time(std::localtime(&now_c), "%c")
+            file_ << "elo" << //std::put_time(std::localtime(&now_c), "%c")
                 << " < DEBUG > " << componentName_ << ": ";
             file_.close();
             return *this;
         case ERROR:
-            file_ << std::put_time(std::localtime(&now_c), "%c")
+            file_ << "elo" << //std::put_time(std::localtime(&now_c), "%c")
                 << " < ERROR > " << componentName_ << ": ";
             file_.close();
             return *this;   
