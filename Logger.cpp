@@ -87,9 +87,10 @@ Logger& Logger::operator<<(float text)
 
 Logger& Logger::operator<<(LogType type)
 {
-    auto now = std::chrono::system_clock::now();
-    auto now_c = std::chrono::system_clock::to_time_t(now);
-    
+    char tmbuf[32];
+    time_t t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+	strftime(tmbuf, sizeof(tmbuf), "%F %T", std::localtime(&t));
+
     file_.open("syslog.log", std::fstream::in | std::fstream::out | std::fstream::app);
     
     if (file_.good())
@@ -97,18 +98,15 @@ Logger& Logger::operator<<(LogType type)
         switch (type)
         {
         case INFO:
-            file_ << "elo" //std::put_time(std::localtime(&now_c), "%c")
-                << " < INFO > " << componentName_ << ": ";
+            file_ << tmbuf << " < INFO > " << componentName_ << ": ";
             file_.close();
             return *this;
         case DEBUG:
-            file_ << "elo" //std::put_time(std::localtime(&now_c), "%c")
-                << " < DEBUG > " << componentName_ << ": ";
+            file_ << tmbuf << " < DEBUG > " << componentName_ << ": ";
             file_.close();
             return *this;
         case ERROR:
-            file_ << "elo" //std::put_time(std::localtime(&now_c), "%c")
-                << " < ERROR > " << componentName_ << ": ";
+            file_ << tmbuf << " < ERROR > " << componentName_ << ": ";
             file_.close();
             return *this;   
         }
