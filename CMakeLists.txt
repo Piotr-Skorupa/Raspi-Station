@@ -48,6 +48,7 @@ list(APPEND mySOURCES
     "${CMAKE_CURRENT_LIST_DIR}/MainComponent.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/Logger.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/MqttConnector.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/PressureSensor.cpp"
 )
 
 ## --- MY EXECUTABLE ---

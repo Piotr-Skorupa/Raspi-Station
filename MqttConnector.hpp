@@ -22,7 +22,7 @@ public:
     int publish(std::string topic, std::string message);
 
 private:
-    Logger logger;
+    Logger logger_;
     //paho
     const std::string DFLT_ADDRESS { "213.222.211.83" };
     const int QOS = 1;

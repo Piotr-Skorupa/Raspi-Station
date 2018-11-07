@@ -1,7 +1,7 @@
 #include "MqttConnector.hpp"
 
 MqttConnector::MqttConnector()
-    :logger("MqttConnector")
+    :logger_("MqttConnector")
     {}
 
 MqttConnector::~MqttConnector()
@@ -26,9 +26,9 @@ int MqttConnector::publish(std::string topic, std::string message)
 
 	try {
 		// Connect to the MQTT broker
-		logger << INFO << "Connecting to server '" << address << "'..." << ENDL;
+		logger_ << INFO << "Connecting to server '" << address << "'..." << ENDL;
 		cli.connect(connOpts)->wait();
-		logger << INFO << "Connecting OK" << ENDL;
+		logger_ << INFO << "Connecting OK" << ENDL;
 
 		char tmbuf[32];
 		unsigned step = 0; // maybe i can 
@@ -46,7 +46,7 @@ int MqttConnector::publish(std::string topic, std::string message)
 
 			// Create the payload as a text CSV string
 			string payload = to_string(++step) + "," + message;
-			logger << INFO << payload << ENDL;
+			logger_ << INFO << payload << ENDL;
 
 			// Publish to the topic
 			top.publish(std::move(payload));
@@ -55,12 +55,12 @@ int MqttConnector::publish(std::string topic, std::string message)
 		}
 
 		// Disconnect
-		logger << INFO << "\nDisconnecting..." << ENDL;
+		logger_ << INFO << "\nDisconnecting..." << ENDL;
 		cli.disconnect()->wait();
-		logger << INFO << "Disconnecting OK" << ENDL;
+		logger_ << INFO << "Disconnecting OK" << ENDL;
 	}
 	catch (const mqtt::exception& exc) {
-		logger << ERROR << exc.what() << ENDL;
+		logger_ << ERROR << exc.what() << ENDL;
 		return 1;
 	}
 }

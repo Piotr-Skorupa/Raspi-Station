@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 
+
 enum class Status
 {
     Avaible = 0,
@@ -18,4 +19,4 @@ public:
 
 };
 
-typedef ISensorPtr std::unique_ptr<ISensor>;
+typedef std::unique_ptr<ISensor> ISensorPtr;
