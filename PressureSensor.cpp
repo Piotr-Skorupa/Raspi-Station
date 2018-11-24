@@ -1,4 +1,5 @@
 #include "PressureSensor.hpp"
+#include <sstream>
 
 PressureSensor::PressureSensor()
     : connector_()
@@ -167,6 +168,17 @@ int PressureSensor::sendData()
 
     if (pressureData_ && temperatureData_){
         logger_ << DEBUG << "Sending valid values to server..." << ENDL;
+
+        std::ostringstream strs;
+        strs << pressureData_.get();
+        std::string pressureString = strs.str();
+        strs.str(std::string());
+        strs << temperatureData_.get();
+        std::string temperatureString = strs.str();
+        
+        connector_.publish("SENSORS/PRESSURE", pressureString);
+        connector_.publish("SENSORS/TEMPERATURE", temperatureString);
+
         return int(Connecting::Success);
     }else
     {

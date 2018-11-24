@@ -34,29 +34,22 @@ int MqttConnector::publish(std::string topic, std::string message)
 		cli.connect(connOpts)->wait();
 		logger_ << INFO << "Connecting OK" << ENDL;
 
-		char tmbuf[32];
-		unsigned step = 0; // maybe i can 
+		// char tmbuf[32];
+		
+		// // The time at which to reads the next sample, starting now
+		// auto tm = steady_clock::now();
 
-		// The time at which to reads the next sample, starting now
-		auto tm = steady_clock::now();
+		// // Get a timestamp and format as a string
+		// time_t t = system_clock::to_time_t(system_clock::now());
+		// strftime(tmbuf, sizeof(tmbuf), "%F %T", localtime(&t));
 
-		while (true) {
-			// Pace the samples to the desired rate
-			this_thread::sleep_until(tm);
+		
+		logger_ << INFO << message << ENDL;
 
-			// Get a timestamp and format as a string
-			time_t t = system_clock::to_time_t(system_clock::now());
-			strftime(tmbuf, sizeof(tmbuf), "%F %T", localtime(&t));
+		// Publish to the topic
+		top.publish(std::move(message));
 
-			// Create the payload as a text CSV string
-			string payload = to_string(++step) + "," + message;
-			logger_ << INFO << payload << ENDL;
-
-			// Publish to the topic
-			top.publish(std::move(payload));
-
-			tm += PERIOD;
-		}
+		//tm += PERIOD;
 
 		// Disconnect
 		logger_ << INFO << "\nDisconnecting..." << ENDL;
