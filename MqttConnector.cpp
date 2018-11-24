@@ -33,23 +33,11 @@ int MqttConnector::publish(std::string topic, std::string message)
 		logger_ << INFO << "Connecting to server '" << address << "'..." << ENDL;
 		cli.connect(connOpts)->wait();
 		logger_ << INFO << "Connecting OK" << ENDL;
-
-		// char tmbuf[32];
-		
-		// // The time at which to reads the next sample, starting now
-		// auto tm = steady_clock::now();
-
-		// // Get a timestamp and format as a string
-		// time_t t = system_clock::to_time_t(system_clock::now());
-		// strftime(tmbuf, sizeof(tmbuf), "%F %T", localtime(&t));
-
 		
 		logger_ << INFO << message << ENDL;
 
 		// Publish to the topic
 		top.publish(std::move(message));
-
-		//tm += PERIOD;
 
 		// Disconnect
 		logger_ << INFO << "\nDisconnecting..." << ENDL;
