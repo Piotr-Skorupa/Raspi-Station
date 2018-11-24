@@ -21,9 +21,19 @@ int main(int argc, char* argv[])
     logger << INFO << "Test value types: " << 5 << ", " << 5.14 << ", " << 6.3f << ENDL;
 
     std::cout << "I2C test..." << std::endl;
-    ISensorPtr dioda(new PressureSensor());
-    auto tempData = dioda->getData();
+    ISensorPtr pressureSensor(new PressureSensor());
+    int i = 0;
+    while (i++ < 5)
+    {
+        int sendingResult = 0;
+        sendingResult = pressureSensor->sendData();
 
+        if (sendingResult < 0)
+        {
+            logger << ERROR << "Something go wrong" << ENDL;
+        }
+    }
+    
     std::cout << "MQTT test ... to exit CTRL+C" << std::endl;
     MqttConnector server;
     server.publish("DEVICES", "czy te urzadzenia dzialaja ?");

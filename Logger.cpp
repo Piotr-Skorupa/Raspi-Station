@@ -119,6 +119,24 @@ Logger& Logger::operator<<(LogType type)
     return *this;
 }
 
+Logger& Logger::operator<<(unsigned char text[DATA_READING_SIZE])
+{
+    file_.open("syslog.log", std::fstream::in | std::fstream::out | std::fstream::app);
+    if (file_.good())
+    {
+        for (auto i = 0; i < DATA_READING_SIZE; i++)
+        {
+            file_ << text[i];
+        }
+        file_.close();
+    }else
+    {
+        std::cerr << "[SYSTEM]: Can't write to syslog" << std::endl;
+    }
+    
+    return *this;
+}
+
 void Logger::clearLogFile()
 {
     std::ofstream file;

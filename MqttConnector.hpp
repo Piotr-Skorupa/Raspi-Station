@@ -24,9 +24,9 @@ public:
 private:
     Logger logger_;
     //paho
-    const std::string DFLT_ADDRESS { "213.222.211.83" };
-    const int QOS = 1;
-    const int MAX_BUFFERED_MSGS = 120;	// 120 * 5sec => 10min off-line buffering
-    const string PERSIST_DIR { "data-persist" };
+    const std::string DFLT_ADDRESS;
+    const int QOS;
+    const int MAX_BUFFERED_MSGS;  // 120 * 5sec => 10min off-line buffering
+    const std::string PERSIST_DIR;
     //paho end
 };
