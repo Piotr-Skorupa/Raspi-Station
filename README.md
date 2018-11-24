@@ -23,3 +23,11 @@ Home Weather Station
 - make
 ### Now you can run program: 
 ./RaspiStation 
+
+
+
+
+
+
+### Bibliography:
+1. I used this repository to find correct way to getting data from my sensors: https://github.com/ControlEverythingCommunity
