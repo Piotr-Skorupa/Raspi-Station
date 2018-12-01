@@ -25,8 +25,7 @@ class ISensor
 public:
     virtual ~ISensor(){}
 
-    virtual void getData() = 0;
-    virtual int sendData() = 0;
+    virtual int getData() = 0;
     virtual void writeData(int data) = 0;
 };
 

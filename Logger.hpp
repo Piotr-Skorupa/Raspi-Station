@@ -36,7 +36,6 @@ public:
     Logger& operator<<(double text);
     Logger& operator<<(float text);
     Logger& operator<<(LogType text);
-    Logger& operator<<(unsigned char text[DATA_READING_SIZE]); //for testing devices data in debug
 
     static void clearLogFile();
 

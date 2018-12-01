@@ -10,18 +10,18 @@
 #include <sys/ioctl.h>			//Needed for I2C port
 #include <linux/i2c-dev.h>		//Needed for I2C port
 
-// this class is now testing Pressure Sensor
-// testing I2C
+// this class is now testing Humidity Sensor
 
-class PressureSensor 
-    final: public ISensor
+
+class HumiditySensor
+    : public ISensor
 {
-public: 
-    PressureSensor();
-    ~PressureSensor();
-
+public:
+    HumiditySensor();
+    ~HumiditySensor();
+    
     double getTemperature();
-    double getPressure();
+    double getHumidity();
     Status getStatus() const;
 
     int getData() override;
@@ -30,6 +30,6 @@ public:
 private:
     Logger logger_;
     Status status_;
-    boost::optional<double> pressureData_;
+    boost::optional<double> humidityData_;
     boost::optional<double> temperatureData_;
 };

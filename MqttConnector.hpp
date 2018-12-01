@@ -23,10 +23,9 @@ public:
 
 private:
     Logger logger_;
-    //paho
     const std::string DFLT_ADDRESS;
     const int QOS;
     const int MAX_BUFFERED_MSGS;  // 120 * 5sec => 10min off-line buffering
     const std::string PERSIST_DIR;
-    //paho end
+    mqtt::async_client cli;
 };
