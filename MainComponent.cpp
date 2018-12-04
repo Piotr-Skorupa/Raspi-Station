@@ -11,6 +11,7 @@
 #include "MqttConnector.hpp"
 #include "PressureSensor.hpp"
 #include "HumiditySensor.hpp"
+#include "Camera.hpp"
 
 
 static int exitCode = 0;
@@ -37,6 +38,7 @@ int main(int argc, char* argv[])
     std::cout << "Program is starting" << std::endl;
     MqttConnector connector;
 
+    Camera::makePhoto();
     std::cout << "Logger test ..." << std::endl;
     logger << INFO << "Raspi Weather Station !" << ENDL;
     logger << DEBUG << "Start" << ENDL;
@@ -58,7 +60,7 @@ int main(int argc, char* argv[])
 
         if (gettingResult < 0)
         {
-            logger << ERROR << "Something go wrong trying to get temp from second sensor..." << ENDL;
+            logger << ERROR << "Something go wrong. Trying to get temp from second sensor..." << ENDL;
             pressString = "can't get data";
             tempString = "can't get data";
 
@@ -69,7 +71,7 @@ int main(int argc, char* argv[])
             {
                 exitCode = 1;
                 logger << ERROR << "Sensors are not working. Please check connections."
-                    << "Program will shutdown!" << ENDL;
+                    << " Program will shutdown!" << ENDL;
                 exit(exitCode);
             }
             else if (gettingResult < 0)
