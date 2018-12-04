@@ -1,8 +1,8 @@
 #include "MqttConnector.hpp"
 
 MqttConnector::MqttConnector()
-    :logger_("MqttConnector")
-    , DFLT_ADDRESS("213.222.211.83")
+	:logger_("MqttConnector")
+	, DFLT_ADDRESS("213.222.211.83")
 	, QOS(1)
 	, MAX_BUFFERED_MSGS(120)
 	, PERSIST_DIR("data-persist")

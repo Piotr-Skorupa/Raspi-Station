@@ -32,6 +32,7 @@ void signalHandler(int signalNumber)
 
 int main(int argc, char* argv[])
 {
+    high_resolution_clock::time_point startTimer = high_resolution_clock::now();
     Logger::clearLogFile();
     std::cout << "Program is starting" << std::endl;
     MqttConnector connector;
@@ -101,7 +102,20 @@ int main(int argc, char* argv[])
         connector.publish("SENSORS/TEMPERATURE", tempString);
         connector.publish("SENSORS/HUMIDITY", humString);
 
-        std::this_thread::sleep_for(std::chrono::seconds(60));
+        high_resolution_clock::time_point endTimer = high_resolution_clock::now();
+
+        duration<double> time_span = duration_cast<duration<double>>(endTimer - startTimer);
+        std::cout << "Duration: " << time_span.count() << " seconds." << std::endl;
+
+        if (time_span.count() / 3600 >= 3)
+        {
+            // clearing syslog file after 3 hours
+            Logger::clearLogFile();
+            logger << INFO << "Previous logs have been cleared because the saving time has been exceeded." << ENDL;
+            startTimer = high_resolution_clock::now();
+        }
+
+        std::this_thread::sleep_for(std::chrono::seconds(10));
     }
 
     std::cout << "The end" << std::endl;
