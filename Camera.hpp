@@ -2,18 +2,21 @@
 
 #include <cstdio>
 #include <iostream>
+#include <string>
+#include <fstream>
+#include <streambuf>
+#include "Logger.hpp"
 
-namespace Camera
+class Camera
 {
+public:
+    Camera();
+    void makePhoto();
+    std::string imageToBase64();
+    std::string recording();
 
-void makePhoto()
-{
-    try{
-        system("raspistill -o last_photo.jpg");
-    }catch(std::exception const& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-}
+    static bool isRecording;
 
-} // namespace Camera
+private:
+    Logger logger_;
+};

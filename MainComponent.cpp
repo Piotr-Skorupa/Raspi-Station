@@ -36,18 +36,14 @@ int main(int argc, char* argv[])
     high_resolution_clock::time_point startTimer = high_resolution_clock::now();
     Logger::clearLogFile();
     std::cout << "Program is starting" << std::endl;
-    MqttConnector connector;
-
-    Camera::makePhoto();
-    std::cout << "Logger test ..." << std::endl;
-    logger << INFO << "Raspi Weather Station !" << ENDL;
-    logger << DEBUG << "Start" << ENDL;
-    logger << ERROR << "Test error" << ENDL;
-    logger << INFO << "Test value types: " << 5 << ", " << 5.14 << ", " << 6.3f << ENDL;
-
-    std::cout << "sending I2C by MQTT test..." << std::endl;
+    
+    std::shared_ptr<MqttConnector> connector = std::make_shared<MqttConnector>();
+    std::unique_ptr<Camera> camera(new Camera());
     std::unique_ptr<PressureSensor> pressureSensor(new PressureSensor());
     std::unique_ptr<HumiditySensor> humiditySensor(new HumiditySensor());
+
+    camera->makePhoto();
+
     std::string tempString, pressString, humString;
     int gettingResult = 0;
 
@@ -76,7 +72,7 @@ int main(int argc, char* argv[])
             }
             else if (gettingResult < 0)
             {
-                goto jump;
+                goto jumpToLoopNextStep;
             }
             else
             {
@@ -92,17 +88,21 @@ int main(int argc, char* argv[])
             gettingResult = humiditySensor->getData();
             if (gettingResult < 0)
             {
-                goto jump;
+                goto jumpToLoopNextStep;
             }
             else{
                 humString = doubleToString(humiditySensor->getHumidity());
             }
         }
-        jump:
+        jumpToLoopNextStep:
 
-        connector.publish("SENSORS/PRESSURE", pressString);
-        connector.publish("SENSORS/TEMPERATURE", tempString);
-        connector.publish("SENSORS/HUMIDITY", humString);
+        connector->publish("SENSORS/PRESSURE", pressString);
+        connector->publish("SENSORS/TEMPERATURE", tempString);
+        connector->publish("SENSORS/HUMIDITY", humString);
+
+        std::string picture = camera->recording();
+        if (!picture.empty())
+            connector->publish("SENSORS/CAMERA_PIC", picture);
 
         high_resolution_clock::time_point endTimer = high_resolution_clock::now();
 
@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
             startTimer = high_resolution_clock::now();
         }
 
-        std::this_thread::sleep_for(std::chrono::seconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 
     std::cout << "The end" << std::endl;
