@@ -53,7 +53,7 @@ MqttConnector::~MqttConnector()
 
 int MqttConnector::publish(std::string topic, std::string message)
 {
-	logger_ << INFO << message << ENDL;
+	logger_ << INFO << topic << ENDL;
 	// Publish to the topic
 	// Create a topic object. This is a conventience since we will
 	// repeatedly publish messages with the same parameters.
