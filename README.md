@@ -2,7 +2,7 @@
 Home Weather Station
 
 ## Prepairing your raspberry pi
-###First you must update your raspberry:
+### First you must update your raspberry:
 ```bash
 sudo apt-get update
 sudo apt-get upgrade
@@ -45,5 +45,5 @@ make
 
 ### Bibliography:
 1. I used this repository to find correct way to getting data from my sensors: https://github.com/ControlEverythingCommunity
-2. Base64 source code: 
+2. Base64 source code from: 
 https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp
