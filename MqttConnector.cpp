@@ -53,7 +53,6 @@ MqttConnector::~MqttConnector()
 
 int MqttConnector::publish(std::string topic, std::string message)
 {
-	logger_ << INFO << topic << ENDL;
 	// Publish to the topic
 	// Create a topic object. This is a conventience since we will
 	// repeatedly publish messages with the same parameters.
@@ -61,6 +60,7 @@ int MqttConnector::publish(std::string topic, std::string message)
 	{
 		mqtt::topic top(cli, topic, QOS, true);
 		top.publish(std::move(message));
+		logger_ << INFO << topic << " message has been sent" <<ENDL;
 	}
 	catch (const mqtt::exception& exc) {
 		logger_ << ERROR << exc.what() << ENDL;

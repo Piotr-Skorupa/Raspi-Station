@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 {
     high_resolution_clock::time_point startTimer = high_resolution_clock::now();
     Logger::clearLogFile();
-    std::cout << "Program is starting" << std::endl;
+    std::cout << "Program is starting..." << std::endl;
     
     std::shared_ptr<MqttConnector> connector = std::make_shared<MqttConnector>();
     std::unique_ptr<Camera> camera(new Camera());
@@ -43,6 +43,8 @@ int main(int argc, char* argv[])
     std::unique_ptr<HumiditySensor> humiditySensor(new HumiditySensor());
 
     camera->makePhoto();
+
+    std::cout << "Start!" << std::endl;
 
     std::string tempString, pressString, humString;
     int gettingResult = 0;
@@ -52,58 +54,62 @@ int main(int argc, char* argv[])
 
     while (true)
     {
-        gettingResult = pressureSensor->getData();
-
-        if (gettingResult < 0)
+        if (!Camera::isRecording)
         {
-            logger << ERROR << "Something go wrong. Trying to get temp from second sensor..." << ENDL;
-            pressString = "can't get data";
-            tempString = "can't get data";
+            gettingResult = pressureSensor->getData();
 
-            gettingResult = humiditySensor->getData();
+            if (gettingResult < 0)
+            {
+                logger << ERROR << "Something go wrong. Trying to get temp from second sensor..." << ENDL;
+                pressString = "can't get data";
+                tempString = "can't get data";
 
-            if (gettingResult < 0 && pressureSensor->getStatus() == Status::Disable 
-                && humiditySensor->getStatus() == Status::Disable)
-            {
-                exitCode = 1;
-                logger << ERROR << "Sensors are not working. Please check connections."
-                    << " Program will shutdown!" << ENDL;
-                exit(exitCode);
-            }
-            else if (gettingResult < 0)
-            {
-                goto jumpToLoopNextStep;
+                gettingResult = humiditySensor->getData();
+
+                if (gettingResult < 0 && pressureSensor->getStatus() == Status::Disable 
+                    && humiditySensor->getStatus() == Status::Disable)
+                {
+                    exitCode = 1;
+                    logger << ERROR << "Sensors are not working. Please check connections."
+                        << " Program will shutdown!" << ENDL;
+                    exit(exitCode);
+                }
+                else if (gettingResult < 0)
+                {
+                    goto jumpToLoopNextStep;
+                }
+                else
+                {
+                    tempString = doubleToString(humiditySensor->getTemperature());
+                    humString = doubleToString(humiditySensor->getHumidity());
+                }
             }
             else
             {
-                tempString = doubleToString(humiditySensor->getTemperature());
-                humString = doubleToString(humiditySensor->getHumidity());
+                pressString = doubleToString(pressureSensor->getPressure());
+                tempString = doubleToString(pressureSensor->getTemperature());
+
+                gettingResult = humiditySensor->getData();
+                if (gettingResult < 0)
+                {
+                    goto jumpToLoopNextStep;
+                }
+                else{
+                    humString = doubleToString(humiditySensor->getHumidity());
+                }
             }
+            jumpToLoopNextStep:
+
+            connector->publish("SENSORS/PRESSURE", pressString);
+            connector->publish("SENSORS/TEMPERATURE", tempString);
+            connector->publish("SENSORS/HUMIDITY", humString);
         }
-        else
-        {
-            pressString = doubleToString(pressureSensor->getPressure());
-            tempString = doubleToString(pressureSensor->getTemperature());
-
-            gettingResult = humiditySensor->getData();
-            if (gettingResult < 0)
-            {
-                goto jumpToLoopNextStep;
-            }
-            else{
-                humString = doubleToString(humiditySensor->getHumidity());
-            }
+        else{
+            std::string picture = camera->recording();
+            if (!picture.empty())
+                connector->publish("SENSORS/CAMERA_PIC", picture);
         }
-        jumpToLoopNextStep:
-
-        connector->publish("SENSORS/PRESSURE", pressString);
-        connector->publish("SENSORS/TEMPERATURE", tempString);
-        connector->publish("SENSORS/HUMIDITY", humString);
-
-        std::string picture = camera->recording();
-        if (!picture.empty())
-            connector->publish("SENSORS/CAMERA_PIC", picture);
-
+        
         high_resolution_clock::time_point endTimer = high_resolution_clock::now();
 
         duration<double> time_span = duration_cast<duration<double>>(endTimer - startTimer);

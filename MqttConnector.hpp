@@ -115,9 +115,11 @@ class callback : public virtual mqtt::callback,
         logger_ << "{ topic: '" << msg->get_topic() << "', ";
         logger_ << "payload: '" << msg->to_string() << "' }" << ENDL;
         if (msg->to_string() == "ON"){
+            logger_ << INFO << "Camera is ON" << ENDL;
             Camera::isRecording = true;
         }
         else if (msg->to_string() == "OFF"){
+            logger_ << INFO << "Camera is OFF" << ENDL;
             Camera::isRecording = false;
         }
         else{

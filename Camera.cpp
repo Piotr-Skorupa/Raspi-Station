@@ -10,7 +10,9 @@ Camera::Camera()
 void Camera::makePhoto()
 {
     try{
-        system("raspistill -o last_photo.jpg");
+        logger_ << INFO << "Starting photo" << ENDL;
+        system("raspistill --quality 10 --height 200 --width 200 -o last_photo.jpg"
+            " --nopreview --exposure sports");
         logger_ << INFO << "Successful photo creation" << ENDL;
     }catch(std::exception const& e)
     {
@@ -20,16 +22,8 @@ void Camera::makePhoto()
 
 std::string Camera::recording()
 {
-    if (Camera::isRecording)
-    {
-        logger_ << INFO << "Camera is ON" << ENDL;
-        makePhoto();
-        return imageToBase64();
-    }
-    else {
-        logger_ << INFO << "Camera is OFF" << ENDL;
-    }
-    return std::string("");
+    makePhoto();
+    return imageToBase64();
 }
 
 std::string Camera::imageToBase64()
