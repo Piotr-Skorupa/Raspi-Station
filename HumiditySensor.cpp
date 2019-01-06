@@ -95,8 +95,3 @@ Status HumiditySensor::getStatus() const
 {
     return status_;
 }
-
-void HumiditySensor::writeData(int data)
-{
-    // This function is not needed here. Maybe should be deleted from interface in the future
-}

@@ -7,22 +7,25 @@ Camera::Camera()
     : logger_("Camera")
     {}
 
-void Camera::makePhoto()
+bool Camera::makePhoto()
 {
-    try{
-        logger_ << INFO << "Starting photo" << ENDL;
-        system("raspistill --quality 10 --height 200 --width 200 -o last_photo.jpg"
-            " --nopreview --exposure sports");
-        logger_ << INFO << "Successful photo creation" << ENDL;
-    }catch(std::exception const& e)
+    logger_ << INFO << "Starting photo" << ENDL;
+    int systemResult = system("raspistill --quality 10 --height 200 --width 200 -o last_photo.jpg --timeout 1");
+    logger_ << INFO << "Successful photo creation" << ENDL;
+    if (systemResult != 0)
     {
-        logger_ << ERROR << e.what() << ENDL;
+        return false;
     }
+    return true;
 }
 
 std::string Camera::recording()
 {
-    makePhoto();
+    if (!makePhoto())
+    {
+        logger_ << DEBUG << "Sending camera error..." << ENDL;
+        return std::string("CAMERA_ERROR");
+    }
     return imageToBase64();
 }
 

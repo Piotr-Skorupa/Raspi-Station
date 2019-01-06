@@ -187,8 +187,3 @@ Status PressureSensor::getStatus() const
 {
     return status_;
 }
-
-void PressureSensor::writeData(int data)
-{
-    // This function is not needed here. Maybe should be deleted from interface in the future
-}

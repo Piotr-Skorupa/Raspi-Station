@@ -26,7 +26,6 @@ public:
     virtual ~ISensor(){}
 
     virtual int getData() = 0;
-    virtual void writeData(int data) = 0;
 };
 
 typedef std::unique_ptr<ISensor> ISensorPtr;

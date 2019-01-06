@@ -26,7 +26,7 @@ std::string doubleToString(double decimalNumber)
 
 void signalHandler(int signalNumber)
 {
-    logger << INFO << "System correctly shutdown." << ENDL;
+    logger << INFO << "System correctly shutdown with exit code = " << signalNumber << ENDL;
     exitCode = signalNumber;
     exit(exitCode);
 }
@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
     Logger::clearLogFile();
     std::cout << "Program is starting..." << std::endl;
     
-    std::shared_ptr<MqttConnector> connector = std::make_shared<MqttConnector>();
+    std::unique_ptr<MqttConnector> connector(new MqttConnector());
     std::unique_ptr<Camera> camera(new Camera());
     std::unique_ptr<PressureSensor> pressureSensor(new PressureSensor());
     std::unique_ptr<HumiditySensor> humiditySensor(new HumiditySensor());
@@ -126,6 +126,5 @@ int main(int argc, char* argv[])
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 
-    std::cout << "The end" << std::endl;
     return exitCode;
 }

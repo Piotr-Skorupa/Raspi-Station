@@ -11,7 +11,7 @@ class Camera
 {
 public:
     Camera();
-    void makePhoto();
+    bool makePhoto();
     std::string imageToBase64();
     std::string recording();
 
