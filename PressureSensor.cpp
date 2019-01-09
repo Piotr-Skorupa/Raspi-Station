@@ -144,10 +144,6 @@ int PressureSensor::getData()
     var2 = p * ((double) dig_P8) / 32768.0;
     double pressure = (p + (var1 + var2 + ((double)dig_P7)) / 16.0) / 100;
 
-    // Output data to screen
-    printf("Pressure : %.2f hPa \n", pressure);
-    printf("Temperature in Celsius : %.2f C \n", cTemp);
-
     pressureData_ = pressure;
     temperatureData_ = cTemp;
 
@@ -158,6 +154,8 @@ int PressureSensor::getData()
     {
         logger_ << ERROR << "Can not get data from sensor" << ENDL;
     }
+
+    std::cout << "reading from pressure sensor" << std::endl;
     return int(Connecting::Success);
 }
 

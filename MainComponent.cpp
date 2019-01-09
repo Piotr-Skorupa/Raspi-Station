@@ -42,9 +42,13 @@ int main(int argc, char* argv[])
     std::unique_ptr<PressureSensor> pressureSensor(new PressureSensor());
     std::unique_ptr<HumiditySensor> humiditySensor(new HumiditySensor());
 
-    camera->makePhoto();
-
-    std::cout << "Start!" << std::endl;
+    std::cout << "making test photo..." << std::endl;
+    if(camera->makePhoto())
+    {
+        std::cout << "[SUCCESS] camera is working correctly" << std::endl;
+    }
+    else
+        std::cout << "[ERROR] you should check connections, camera is not working" << std::endl;
 
     std::string tempString, pressString, humString;
     int gettingResult = 0;
@@ -52,6 +56,7 @@ int main(int argc, char* argv[])
     std::signal(SIGTERM, signalHandler);
     std::signal(SIGINT, signalHandler);
 
+    std::cout << "measuring starts" << std::endl;
     while (true)
     {
         if (!Camera::isRecording)

@@ -10,6 +10,7 @@ HumiditySensor::~HumiditySensor()
 
 int HumiditySensor::getData()
 {
+    logger_ << INFO << "Getting data from sensor..." << ENDL;
     status_ = Status::Pending;
     // Create I2C bus
     int file;
@@ -41,7 +42,7 @@ int HumiditySensor::getData()
     {
         // Convert the data
         humidityData_ = (((data[0] * 256 + data[1]) * 125.0) / 65536.0) - 6;
-        logger_ << DEBUG << "Read humidity: " << humidityData_.get() << ENDL;
+        logger_ << DEBUG << "Humidity: " << humidityData_.get() << " %" << ENDL;
     }
 
     // Send temperature measurement command(0xF3)
@@ -63,8 +64,10 @@ int HumiditySensor::getData()
     {
         // Convert the data to Celsjus
         temperatureData_ = (((data[0] * 256 + data[1]) * 175.72) / 65536.0) - 46.85;
-        logger_ << DEBUG << "Read temperature(2): " << temperatureData_.get() << ENDL;
+        logger_ << DEBUG << "Temperature(2): " << temperatureData_.get() << " C" << ENDL;
     }
+
+    std::cout << "reading from humidity sensor" << std::endl;
     return (int)Connecting::Success;
 }
 
