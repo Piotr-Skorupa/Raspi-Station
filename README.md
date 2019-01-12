@@ -44,6 +44,6 @@ make
 
 
 ### Bibliography:
-1. I used this repository to find correct way to getting data from my sensors: https://github.com/ControlEverythingCommunity
+1. I used this repository to find a correct way of getting the data from my sensors: https://github.com/ControlEverythingCommunity
 2. Base64 source code from: 
 https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp
