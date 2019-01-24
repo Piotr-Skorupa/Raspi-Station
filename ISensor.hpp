@@ -9,7 +9,7 @@
 
 enum class Status
 {
-    Avaible = 0,
+    Enable = 0,
     Disable = 1,
     Pending = 2
 };

@@ -10,7 +10,7 @@ Logger::Logger(std::string componentName)
 Logger::~Logger()
     {}
 
-Logger& Logger::operator<<(std::string text)
+Logger& Logger::operator<<(const std::string& text)
 {
     file_.open("syslog.log", std::fstream::in | std::fstream::out | std::fstream::app);
     if (file_.good())
@@ -40,7 +40,7 @@ Logger& Logger::operator<<(const char* text)
     return *this;
 }
 
-Logger& Logger::operator<<(int text)
+Logger& Logger::operator<<(const int& text)
 {
     file_.open("syslog.log", std::fstream::in | std::fstream::out | std::fstream::app);
     if (file_.good())
@@ -55,7 +55,7 @@ Logger& Logger::operator<<(int text)
     return *this;
 }
 
-Logger& Logger::operator<<(double text)
+Logger& Logger::operator<<(const double& text)
 {
     file_.open("syslog.log", std::fstream::in | std::fstream::out | std::fstream::app);
     if (file_.good())
@@ -70,7 +70,7 @@ Logger& Logger::operator<<(double text)
     return *this;
 }
 
-Logger& Logger::operator<<(float text)
+Logger& Logger::operator<<(const float& text)
 {
     file_.open("syslog.log", std::fstream::in | std::fstream::out | std::fstream::app);
     if (file_.good())
@@ -85,7 +85,7 @@ Logger& Logger::operator<<(float text)
     return *this;
 }
 
-Logger& Logger::operator<<(LogType type)
+Logger& Logger::operator<<(const LogType& type)
 {
     char tmbuf[32];
     time_t t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());

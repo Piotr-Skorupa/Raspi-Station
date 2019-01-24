@@ -36,7 +36,7 @@ int PressureSensor::getData()
         return int(Connecting::Error);
     }
 
-    status_ = Status::Avaible;
+    status_ = Status::Enable;
 
     // Convert the data
     // temp coefficents

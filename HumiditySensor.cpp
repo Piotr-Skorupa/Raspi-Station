@@ -50,7 +50,7 @@ int HumiditySensor::getData()
     write(file, config, 1); 
     sleep(1);
 
-    status_ = Status::Avaible;
+    status_ = Status::Enable;
     // Read 2 bytes of temperature data
     // temp msb, temp lsb
     if(read(file, data, 2) != 2)

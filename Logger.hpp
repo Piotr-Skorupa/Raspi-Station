@@ -17,7 +17,6 @@ enum class LogType
 #define DEBUG LogType::Debug          
 #define ERROR LogType::Error
 #define ENDL "\n"                    //use it instead of "std::endl"
-#define DATA_READING_SIZE 60
 
 // example usage : logger << INFO << "Some text" << ENDL;
 
@@ -30,12 +29,12 @@ public:
     Logger(const Logger&& other) = delete;
     ~Logger();
 
-    Logger& operator<<(std::string text);
+    Logger& operator<<(const std::string& text);
     Logger& operator<<(const char* text);
-    Logger& operator<<(int text);
-    Logger& operator<<(double text);
-    Logger& operator<<(float text);
-    Logger& operator<<(LogType text);
+    Logger& operator<<(const int& text);
+    Logger& operator<<(const double& text);
+    Logger& operator<<(const float& text);
+    Logger& operator<<(const LogType& text);
 
     static void clearLogFile();
 
