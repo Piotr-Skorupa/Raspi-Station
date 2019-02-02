@@ -66,8 +66,8 @@ int main(int argc, char* argv[])
             if (gettingResult < 0)
             {
                 logger << ERROR << "Something go wrong. Trying to get temp from second sensor..." << ENDL;
-                pressString = "can't get data";
-                tempString = "can't get data";
+                pressString = "0.0";
+                tempString = "0.0";
 
                 gettingResult = humiditySensor->getData();
 
@@ -97,6 +97,7 @@ int main(int argc, char* argv[])
                 gettingResult = humiditySensor->getData();
                 if (gettingResult < 0)
                 {
+                    humString = "0.0";
                     goto jumpToLoopNextStep;
                 }
                 else{
