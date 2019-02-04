@@ -10,7 +10,7 @@ Camera::Camera()
 bool Camera::makePhoto()
 {
     logger_ << INFO << "Starting photo" << ENDL;
-    int systemResult = system("raspistill --quality 10 --height 200 --width 200 -o last_photo.jpg --timeout 1");
+    int systemResult = system("raspistill --height 200 --width 200 -rot 270 -o last_photo.jpg --timeout 1");
 
     if (systemResult != 0)
     {
