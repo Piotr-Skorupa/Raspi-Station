@@ -2,9 +2,7 @@
 
 MqttConnector::MqttConnector()
 	:logger_("MqttConnector")
-	[config.h (not pushed)]
-	, DFLT_ADDRESS("213.222.211.83")
-	[sketch.ino (pushed)]
+	, DFLT_ADDRESS("********")
 	, QOS(1)
 	, MAX_BUFFERED_MSGS(120)
 	, PERSIST_DIR("data-persist")
