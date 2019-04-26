@@ -20,7 +20,7 @@ namespace camera        // classes and variables for mqtt camera subscribing
 
 const int	QOS = 1;
 const int	N_RETRY_ATTEMPTS = 5;
-const std::string SERVER_ADDRESS("213.222.211.83");
+const std::string SERVER_ADDRESS("********");
 const std::string CLIENT_ID("camera_subcribe");
 const std::string TOPIC("SENSORS/CAMERA_ON_OFF");
 
